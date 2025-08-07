@@ -1,93 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Robux Giveaway</title>
   <style>
     body {
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background: #ffffff;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      color: #222;
+      font-family: Arial, sans-serif;
+      background: #f7f7f7;
+      text-align: center;
+      padding: 40px;
     }
 
-    .card {
-      max-width: 400px;
-      width: 90%;
-      background: #fff;
-      padding: 25px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-      border-radius: 12px;
-      text-align: center;
+    .container {
+      background: white;
+      max-width: 500px;
+      margin: auto;
+      padding: 30px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      border-radius: 10px;
     }
 
     h1 {
-      font-size: 1.5rem;
-      margin-bottom: 10px;
-    }
-
-    p {
-      font-size: 0.95rem;
-      color: #555;
-      margin-bottom: 20px;
+      color: #111;
     }
 
     input[type="email"] {
-      width: 100%;
       padding: 12px;
+      width: 80%;
+      margin: 10px 0;
+      border-radius: 5px;
       border: 1px solid #ccc;
-      border-radius: 8px;
-      margin-bottom: 15px;
-      font-size: 1rem;
     }
 
     button {
-      width: 100%;
-      padding: 12px;
+      padding: 12px 24px;
       background: #28a745;
       color: white;
       border: none;
-      border-radius: 8px;
-      font-size: 1rem;
-      font-weight: bold;
+      border-radius: 5px;
       cursor: pointer;
-    }
-
-    button:hover {
-      background: #218838;
+      font-weight: bold;
     }
 
     .message {
       margin-top: 15px;
-      font-weight: bold;
+      color: green;
       display: none;
     }
   </style>
 </head>
 <body>
 
-  <div class="card">
-    <h1>🎉 Robux Weekly Giveaway</h1>
-    <p>Enter your email for a chance to win 800 Robux this Sunday.</p>
+  <div class="container">
+    <h1>🎉 Enter the Weekly Robux Giveaway!</h1>
+    <p>Win 800 Robux every Sunday! Enter your email to participate:</p>
 
     <form id="giveaway-form">
-      <input type="email" id="email" name="Email" placeholder="Your email" required />
+      <input type="email" id="email" name="Email" placeholder="Enter your email" required />
+      <br>
       <button type="submit">Join Now</button>
     </form>
 
-    <div class="message" id="response-message"></div>
+    <div class="message" id="success-message">
+      ✅ You’ve successfully joined the giveaway!
+    </div>
   </div>
 
   <script>
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbz-Hr_6j8nu6lnvFoFJL4emVDmQsOR0mo6UftxrqrAlLN-jw8mGxQvz_Oa38ZVgDJb5xw/exec';
+    const scriptURL = 'AKfycbz-Hr_6j8nu6lnvFoFJL4emVDmQsOR0mo6UftxrqrAlLN-jw8mGxQvz_Oa38ZVgDJb5xw'; // ضع رابط Web App هنا
     const form = document.getElementById('giveaway-form');
-    const message = document.getElementById('response-message');
+    const message = document.getElementById('success-message');
 
     form.addEventListener('submit', e => {
       e.preventDefault();
@@ -95,20 +78,11 @@
       const formData = new FormData(form);
 
       fetch(scriptURL, { method: 'POST', body: formData })
-        .then(response => response.json())
-        .then(data => {
-          message.textContent = data.message;
-          message.style.color = data.status === "success" ? "green" : "red";
-          message.style.display = "block";
-          if (data.status === "success") {
-            form.reset();
-          }
+        .then(response => {
+          form.reset();
+          message.style.display = 'block';
         })
-        .catch(() => {
-          message.textContent = "❌ Something went wrong. Please try again.";
-          message.style.color = "red";
-          message.style.display = "block";
-        });
+        .catch(error => console.error('Error!', error.message));
     });
   </script>
 
