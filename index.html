@@ -6,51 +6,130 @@
   <title>Win a Roblox Gift Card</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f9f9f9;
-      padding: 40px;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background-color: #f4f6f8;
+      margin: 0;
+      padding: 0;
       text-align: center;
+      color: #333;
     }
+
+    header {
+      background: linear-gradient(135deg, #00b09b, #96c93d);
+      color: white;
+      padding: 30px 20px;
+    }
+
+    header h1 {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+
+    header p {
+      font-size: 16px;
+      opacity: 0.9;
+    }
+
+    .gift-image {
+      width: 90%;
+      max-width: 350px;
+      border-radius: 12px;
+      margin: 20px auto;
+      display: block;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+
+    .content {
+      padding: 20px;
+      max-width: 500px;
+      margin: auto;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+
     form {
       margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
     }
+
     input[type="email"] {
-      padding: 10px;
-      width: 250px;
+      padding: 12px;
+      width: 70%;
+      max-width: 300px;
       font-size: 16px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
     }
+
     button {
-      padding: 10px 20px;
+      padding: 12px 20px;
       font-size: 16px;
-      background-color: #4CAF50;
+      background-color: #00b09b;
       color: white;
       border: none;
+      border-radius: 6px;
       cursor: pointer;
-      margin-left: 10px;
+      transition: background 0.3s;
     }
+
+    button:hover {
+      background-color: #00917a;
+    }
+
     #responseMsg {
       margin-top: 15px;
       padding: 10px;
       border-radius: 8px;
       font-weight: bold;
+      display: none;
+    }
+
+    .success {
       background-color: #f0fdf4;
       color: #065f46;
       border: 1px solid #bbf7d0;
     }
+
+    .error {
+      background-color: #fef2f2;
+      color: #991b1b;
+      border: 1px solid #fecaca;
+    }
   </style>
 </head>
 <body>
-  <h1>🎁 Win a 800 Robux Gift Card</h1>
-  <p>Join our free weekly giveaway and get a chance to win 800 Robux!</p>
 
-  <form id="emailForm">
-    <input name="Email" type="email" placeholder="Enter your email" required />
-    <button type="submit">Enter Giveaway</button>
-  </form>
-  <div id="responseMsg"></div>
+  <header>
+    <h1>🎁 Win a 800 Robux Gift Card</h1>
+    <p>Join our free weekly giveaway for a chance to win an official Roblox gift card worth 800 Robux!</p>
+  </header>
+
+  <img src="https://upload.wikimedia.org/wikipedia/commons/4/48/Roblox_Gift_Card.png" 
+       alt="Roblox Gift Card" 
+       class="gift-image">
+
+  <div class="content">
+    <h2>How to Participate?</h2>
+    <ul style="text-align: left; max-width: 350px; margin: auto; font-size: 15px;">
+      <li>Enter your email below.</li>
+      <li>Wait for the winner announcement at the end of the week.</li>
+      <li>The winner will receive the gift card code via email.</li>
+    </ul>
+
+    <form id="emailForm">
+      <input name="Email" type="email" placeholder="Enter your email" required />
+      <button type="submit">Enter Giveaway</button>
+    </form>
+
+    <div id="responseMsg"></div>
+  </div>
 
   <script>
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbz-Hr_6j8nu6lnvFoFJL4emVDmQsOR0mo6UftxrqrAlLN-jw8mGxQvz_Oa38ZVgDJb5xw/exec'; // ← ضع هنا رابط Google Web App
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbz-Hr_6j8nu6lnvFoFJL4emVDmQsOR0mo6UftxrqrAlLN-jw8mGxQvz_Oa38ZVgDJb5xw/exec';
 
     document.getElementById('emailForm').addEventListener('submit', e => {
       e.preventDefault();
@@ -62,14 +141,22 @@
       })
       .then(res => res.json())
       .then(data => {
-        document.getElementById('responseMsg').innerHTML =
-          data.result === 'success'
-            ? '✅ <strong>Thank you for participating!</strong> You have been successfully entered into this week\'s giveaway. We will contact the lucky winner after the draw.'
-            : '❌ An error occurred. Please try again.';
+        const msg = document.getElementById('responseMsg');
+        msg.style.display = 'block';
+        if (data.result === 'success') {
+          msg.className = 'success';
+          msg.innerHTML = '✅ <strong>Thank you for participating!</strong> We will contact the lucky winner after the draw.';
+        } else {
+          msg.className = 'error';
+          msg.textContent = '❌ An error occurred. Please try again.';
+        }
         form.reset();
       })
       .catch(err => {
-        document.getElementById('responseMsg').textContent = '❌ Connection error. Please try again later.';
+        const msg = document.getElementById('responseMsg');
+        msg.style.display = 'block';
+        msg.className = 'error';
+        msg.textContent = '❌ Connection error. Please try again later.';
         console.error(err);
       });
     });
