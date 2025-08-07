@@ -1,90 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Robux Giveaway</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Win a Roblox Gift Card</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f7f7f7;
-      text-align: center;
+      background-color: #f9f9f9;
       padding: 40px;
+      text-align: center;
     }
-
-    .container {
-      background: white;
-      max-width: 500px;
-      margin: auto;
-      padding: 30px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.2);
-      border-radius: 10px;
+    form {
+      margin-top: 20px;
     }
-
-    h1 {
-      color: #111;
-    }
-
     input[type="email"] {
-      padding: 12px;
-      width: 80%;
-      margin: 10px 0;
-      border-radius: 5px;
-      border: 1px solid #ccc;
+      padding: 10px;
+      width: 250px;
+      font-size: 16px;
     }
-
     button {
-      padding: 12px 24px;
-      background: #28a745;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #4CAF50;
       color: white;
       border: none;
-      border-radius: 5px;
       cursor: pointer;
-      font-weight: bold;
+      margin-left: 10px;
     }
-
-    .message {
+    #responseMsg {
       margin-top: 15px;
-      color: green;
-      display: none;
+      padding: 10px;
+      border-radius: 8px;
+      font-weight: bold;
+      background-color: #f0fdf4;
+      color: #065f46;
+      border: 1px solid #bbf7d0;
     }
   </style>
 </head>
 <body>
+  <h1>🎁 Win a 800 Robux Gift Card</h1>
+  <p>Join our free weekly giveaway and get a chance to win 800 Robux!</p>
 
-  <div class="container">
-    <h1>🎉 Enter the Weekly Robux Giveaway!</h1>
-    <p>Win 800 Robux every Sunday! Enter your email to participate:</p>
-
-    <form id="giveaway-form">
-      <input type="email" id="email" name="Email" placeholder="Enter your email" required />
-      <br>
-      <button type="submit">Join Now</button>
-    </form>
-
-    <div class="message" id="success-message">
-      ✅ You’ve successfully joined the giveaway!
-    </div>
-  </div>
+  <form id="emailForm">
+    <input name="Email" type="email" placeholder="Enter your email" required />
+    <button type="submit">Enter Giveaway</button>
+  </form>
+  <div id="responseMsg"></div>
 
   <script>
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbx2Y4aoT9aJdNvjnnuu5YBiq9RpwCblZFNzaf9oJg3rgSXHAXn8wO4dqYDzm9VEkpnwYA/exec'; // ضع رابط Web App هنا
-    const form = document.getElementById('giveaway-form');
-    const message = document.getElementById('success-message');
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbz-Hr_6j8nu6lnvFoFJL4emVDmQsOR0mo6UftxrqrAlLN-jw8mGxQvz_Oa38ZVgDJb5xw/exec'; // ← ضع هنا رابط Google Web App
 
-    form.addEventListener('submit', e => {
+    document.getElementById('emailForm').addEventListener('submit', e => {
       e.preventDefault();
-
-      const formData = new FormData(form);
-
-      fetch(scriptURL, { method: 'POST', body: formData })
-        .then(response => {
-          form.reset();
-          message.style.display = 'block';
-        })
-        .catch(error => console.error('Error!', error.message));
+      const form = e.target;
+      fetch(scriptURL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(new FormData(form))
+      })
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('responseMsg').innerHTML =
+          data.result === 'success'
+            ? '✅ <strong>Thank you for participating!</strong> You have been successfully entered into this week\'s giveaway. We will contact the lucky winner after the draw.'
+            : '❌ An error occurred. Please try again.';
+        form.reset();
+      })
+      .catch(err => {
+        document.getElementById('responseMsg').textContent = '❌ Connection error. Please try again later.';
+        console.error(err);
+      });
     });
   </script>
-
 </body>
 </html>
