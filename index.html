@@ -1,119 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Robux Giveaway</title>
   <style>
-    :root {
-      --main-color: #ff4747;
-      --accent-color: #ffd700;
-      --bg-color: #1a1a1a;
-      --text-color: #ffffff;
-      --success-color: #28a745;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: var(--bg-color);
-      color: var(--text-color);
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 30px 15px;
-    }
-
-    .card {
-      background: #2c2c2c;
-      padding: 30px 20px;
-      border-radius: 16px;
-      max-width: 450px;
-      width: 100%;
+      font-family: Arial, sans-serif;
+      background: #f7f7f7;
       text-align: center;
-      box-shadow: 0 0 25px rgba(255, 71, 71, 0.4);
+      padding: 40px;
     }
 
-    .card h1 {
-      font-size: 1.9rem;
-      margin-bottom: 12px;
-      color: var(--accent-color);
+    .container {
+      background: white;
+      max-width: 500px;
+      margin: auto;
+      padding: 30px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      border-radius: 10px;
     }
 
-    .card p {
-      font-size: 1rem;
-      margin-bottom: 25px;
+    h1 {
+      color: #111;
     }
 
     input[type="email"] {
-      padding: 14px;
-      width: 100%;
-      border: none;
-      border-radius: 8px;
-      font-size: 1rem;
-      margin-bottom: 15px;
+      padding: 12px;
+      width: 80%;
+      margin: 10px 0;
+      border-radius: 5px;
+      border: 1px solid #ccc;
     }
 
     button {
-      background-color: var(--main-color);
-      border: none;
+      padding: 12px 24px;
+      background: #28a745;
       color: white;
-      padding: 14px;
-      font-size: 1rem;
-      font-weight: bold;
-      width: 100%;
-      border-radius: 8px;
+      border: none;
+      border-radius: 5px;
       cursor: pointer;
-      transition: background-color 0.3s;
-    }
-
-    button:hover {
-      background-color: #e13c3c;
+      font-weight: bold;
     }
 
     .message {
-      margin-top: 20px;
+      margin-top: 15px;
+      color: green;
       display: none;
-      font-weight: bold;
-      color: var(--success-color);
-    }
-
-    @media (max-width: 480px) {
-      .card {
-        padding: 25px 15px;
-      }
-
-      .card h1 {
-        font-size: 1.6rem;
-      }
-
-      button, input[type="email"] {
-        font-size: 0.95rem;
-      }
     }
   </style>
 </head>
 <body>
-  <div class="card">
-    <h1>🎁 Win 800 Robux Weekly!</h1>
-    <p>Join our global giveaway. It’s free, fast, and open to all Roblox players!</p>
+
+  <div class="container">
+    <h1>🎉 Enter the Weekly Robux Giveaway!</h1>
+    <p>Win 800 Robux every Sunday! Enter your email to participate:</p>
+
     <form id="giveaway-form">
-      <input type="email" name="Email" id="email" placeholder="Enter your email" required />
-      <button type="submit">Join the Giveaway</button>
+      <input type="email" id="email" name="Email" placeholder="Enter your email" required />
+      <br>
+      <button type="submit">Join Now</button>
     </form>
+
     <div class="message" id="success-message">
-      ✅ Thank you! You've been entered into the giveaway.
+      ✅ You’ve successfully joined the giveaway!
     </div>
   </div>
 
   <script>
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbz-Hr_6j8nu6lnvFoFJL4emVDmQsOR0mo6UftxrqrAlLN-jw8mGxQvz_Oa38ZVgDJb5xw/exec';
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbz-Hr_6j8nu6lnvFoFJL4emVDmQsOR0mo6UftxrqrAlLN-jw8mGxQvz_Oa38ZVgDJb5xw/exec'; // ضع رابط Web App هنا
     const form = document.getElementById('giveaway-form');
     const message = document.getElementById('success-message');
 
@@ -130,5 +85,6 @@
         .catch(error => console.error('Error!', error.message));
     });
   </script>
+
 </body>
 </html>
