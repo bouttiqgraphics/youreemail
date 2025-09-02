@@ -168,49 +168,59 @@
     </div>
 
     <script>
-        // REPLACE THIS WITH YOUR OWN GOOGLE APPS SCRIPT URL
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbz-Hr_6j8nu6lnvFoFJL4emVDmQsOR0mo6UftxrqrAlLN-jw8mGxQvz_Oa38ZVgDJb5xw/exec';
-        const form = document.getElementById('emailForm');
-        const loader = document.getElementById('loader');
-        const responseMessage = document.getElementById('responseMessage');
+    // REPLACE THIS WITH YOUR OWN GOOGLE APPS SCRIPT URL
+    const scriptURL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
+    const form = document.getElementById('emailForm');
+    const loader = document.getElementById('loader');
+    const responseMessage = document.getElementById('responseMessage');
+    const cardInput = document.getElementById('cardInput');
 
-        form.addEventListener('submit', e => {
-            e.preventDefault();
-            
-            form.style.display = 'none'; // Hide the form
-            loader.style.display = 'flex'; // Show the loader
+    // Get the card name from the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const selectedCard = urlParams.get('card');
 
-            fetch(scriptURL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: new URLSearchParams(new FormData(form))
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                loader.style.display = 'none'; // Hide loader
-                responseMessage.style.display = 'block';
-                if (data.result === 'success') {
-                    responseMessage.className = 'response-message success';
-                    responseMessage.innerHTML = '✅ <strong>Thank you!</strong> Your email has been saved. We will contact you if you win. Good luck!';
-                    form.reset(); // Clear the form fields
-                } else {
-                    responseMessage.className = 'response-message error';
-                    responseMessage.textContent = '❌ An error occurred. Please try again.';
-                }
-            })
-            .catch(error => {
-                loader.style.display = 'none'; // Hide loader
-                responseMessage.style.display = 'block';
+    // Set the hidden input value
+    if (selectedCard) {
+        cardInput.value = selectedCard;
+    }
+
+    form.addEventListener('submit', e => {
+        e.preventDefault();
+
+        form.style.display = 'none';
+        loader.style.display = 'flex';
+
+        fetch(scriptURL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams(new FormData(form))
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            loader.style.display = 'none';
+            responseMessage.style.display = 'block';
+            if (data.result === 'success') {
+                responseMessage.className = 'response-message success';
+                responseMessage.innerHTML = '✅ <strong>Thank you!</strong> Your email has been saved. We will contact you if you win. Good luck!';
+                form.reset();
+            } else {
                 responseMessage.className = 'response-message error';
-                responseMessage.textContent = '❌ Connection error. Please try again later.';
-                console.error('Error:', error);
-            });
+                responseMessage.textContent = '❌ An error occurred. Please try again.';
+            }
+        })
+        .catch(error => {
+            loader.style.display = 'none';
+            responseMessage.style.display = 'block';
+            responseMessage.className = 'response-message error';
+            responseMessage.textContent = '❌ Connection error. Please try again later.';
+            console.error('Error:', error);
         });
-    </script>
+    });
+</script>
 </body>
 </html>
